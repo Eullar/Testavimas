@@ -12,7 +12,7 @@ namespace Backend.Utilities;
 public class Game
 {
     private static readonly Game _game = new();
-    private static List<Player> _connectedPlayers { get; } = new(4);
+    private static List<Player> _connectedPlayers { get; set; } = new(4);
     private static Subject _mapSubject { get; } = new();
     private static MapFactory _mapFactory = new PlusMapFactory();
 
@@ -201,5 +201,10 @@ public class Game
         }
 
         return Color.Yellow;
+    }
+
+    public void Reset()
+    {
+        _connectedPlayers = new List<Player>(4);
     }
 }
