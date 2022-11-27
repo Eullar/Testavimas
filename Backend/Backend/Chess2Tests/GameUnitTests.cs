@@ -153,5 +153,101 @@ public class Tests
         // Assert
         Assert.That(result.ToString(), Is.EqualTo(expectedMap.ToString()));
     }
+
+    [Test]
+    public void RemovePlayer_RemovesPlayer()
+    {
+        // Arrange
+        var player = new Player("1", "name", Color.Blue, new List<Unit>());
+        _game.AddPlayer(player);
+        Assert.That(_game.GetPlayers().Count, Is.EqualTo(1));
+        
+        // Act
+        _game.RemovePlayer(player);
+        
+        // Assert
+        Assert.That(_game.GetPlayers().Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void GetPlayer_WhenExists_ReturnsPlayer()
+    {
+        // Arrange
+        var player = new Player("1", "Gin", Color.Blue, new List<Unit>());
+        _game.AddPlayer(player);
+        
+        // Act
+        var resultPlayer = _game.GetPlayerByConnectionId("1");
+        
+        // Assert
+        Assert.That(resultPlayer.Name, Is.EqualTo(player.Name));
+        Assert.That(resultPlayer.ConnectionID, Is.EqualTo(player.ConnectionID));
+        Assert.That(resultPlayer.Color, Is.EqualTo(player.Color));
+    }
     
+    [Test]
+    public void GetPlayer_WhenDoesNotExist_ReturnsNull()
+    {
+        // Arrange
+        
+        // Act
+        var resultPlayer = _game.GetPlayerByConnectionId("1");
+        
+        // Assert
+        Assert.IsNull(resultPlayer);
+    }
+
+    [Test]
+    public void NextPlayer()
+    {
+        // Arrange
+        var player1 = new Player("1", "Gin", Color.Blue, new List<Unit> { new Tank() });
+        var player2 = new Player("2", "Gin2", Color.Red, new List<Unit> { new Tank() });
+        _game.AddPlayer(player1);
+        _game.AddPlayer(player2);
+        
+        // Act
+        var result = _game.NextPlayer();
+        
+        // Assert
+        Assert.That(result, Is.EqualTo(player1.ConnectionID));
+    }
+    [Test]
+    public void NextPlayer_ChecksSecondPlayer()
+    {
+        // Arrange
+        var player1 = new Player("1", "Gin", Color.Blue, new List<Unit> { new Tank() });
+        var player2 = new Player("2", "Gin2", Color.Red, new List<Unit> { new Tank() });
+        _game.AddPlayer(player1);
+        _game.AddPlayer(player2);
+        _game.GenerateMap();
+        var firstTurn = _game.NextPlayer();
+        Assert.That(firstTurn, Is.EqualTo(player1.ConnectionID));
+        
+        // Act
+        var result = _game.NextPlayer();
+        
+        // Assert
+        Assert.That(result, Is.EqualTo(player2.ConnectionID));
+    }
+
+    [Test]
+    [TestCase(0, Color.Red)]
+    [TestCase(1, Color.Blue)]
+    [TestCase(2, Color.Green)]
+    [TestCase(3, Color.Yellow)]
+    public void GetAvailableColor_ReturnsCorrectly(int peopleCount, Color result)
+    {
+        // Arrange
+        for (var i = 0; i < peopleCount; i++)
+        {
+            _game.AddPlayer(new Player($"{i}", $"TestName{i}", (Color)i, new List<Unit>()));
+        }
+        
+        // Act
+        var actualResult = _game.GetFirstAvailableFreeColor();
+        
+        // Assert
+        Assert.That(actualResult, Is.EqualTo(result));
+    }
 }

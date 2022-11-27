@@ -206,5 +206,7 @@ public class Game
     public void Reset()
     {
         _connectedPlayers = new List<Player>(4);
+        CurrentPlayerTurn = 0;
+        CurrentPlayer = null;
     }
 }
