@@ -13,12 +13,6 @@ public class Tests
         _game = Game.GetGameInstance();
     }
 
-    [Dispose]
-    public void Dispose()
-    {
-        
-    }
-
     [Test]
     public void AddPlayer_PlayerWithNameAlreadyExists_ReturnsCorrectEnum()
     {
