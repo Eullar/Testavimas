@@ -10,4 +10,26 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Chess2Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Chess2Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Chess2Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Chess2Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Chess2Tests\obj\Chess2Tests.csproj.nuget.dgspec.json" />
+    <_ContentIncludedByDefault Remove="Chess2Tests\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="Chess2Tests\obj\project.packagespec.json" />
+  </ItemGroup>
+
 </Project>
